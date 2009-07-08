@@ -98,11 +98,10 @@ function TauntWarning_OnEvent(self, events, ...)
 	) then
 
 	local start, duration, enabled = GetSpellCooldown(spellName)
-	local channel = GetChannel()
 
 	warning = format("%s %s → >>%s<< 施法失敗，還在冷卻中，剩餘%d秒", playerName, spellName, targetName, start + duration - GetTime())
 
-	SendChatMessage(warning, channel)
+	SendChatMessage(warning, "say")
        end
       elseif(type == "SPELL_MISSED" and sourceName == playerName) then
 	local spellId, spellName, spellSchool = select(9, ...)
