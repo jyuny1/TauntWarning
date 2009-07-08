@@ -99,9 +99,11 @@ function TauntWarning_OnEvent(self, events, ...)
 
 	local start, duration, enabled = GetSpellCooldown(spellName)
 
-	warning = format("%s %s → >>%s<< 施法失敗，還在冷卻中，剩餘%d秒", playerName, spellName, targetName, start + duration - GetTime())
-
-	SendChatMessage(warning, "say")
+	if ((start + duration)>0) then
+	  -- if not out of range
+	  warning = format("%s %s → >>%s<< 施法失敗，還在冷卻中，剩餘%d秒", playerName, spellName, targetName, start + duration - GetTime())
+	  SendChatMessage(warning, "say")
+	end
        end
       elseif(type == "SPELL_MISSED" and sourceName == playerName) then
 	local spellId, spellName, spellSchool = select(9, ...)
