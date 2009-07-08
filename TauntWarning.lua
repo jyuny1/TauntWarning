@@ -44,6 +44,7 @@ function TauntWarning_OnEvent(self, events, ...)
 	spellId == 49560 or -- death knight
 	spellId == 355 or   -- war
 	spellId == 1161 or  -- war
+	spellId == 694 or -- war
 	spellId == 62124 or -- pal
 	spellId == 31789 or -- pal
 	spellId == 6795  or -- druid
@@ -57,16 +58,16 @@ function TauntWarning_OnEvent(self, events, ...)
 	  end
 	elseif (threatSituation==0 or threatSituation==1) then
 	  if (not icon) then
-	    warning = format("%s → >>%s<<<", sourceName, destName)
+	    warning = format("%s %s → >>%s<<", sourceName, spellName, destName)
 	  else
-	    warning = format("%s → >>{rt%d}%s{rt%d}<<", sourceName, icon, destName, icon)
+	    warning = format("%s %s → >>{rt%d}%s{rt%d}<<", sourceName, spellNameon, icon, destName, icon)
 	  end
 	else
 	  if (targetOfTargetName ~= playerName) then
 	    if (not icon) then
-	      warning = format("%s → >>>%s<< (%s)", sourceName, destName, targetOftargetName)
+	      warning = format("%s %s → >>%s<< (%s)", sourceName, spellName, destName, targetOftargetName)
 	    else
-	      warning = format("%s → >>>{rt%d}%s{rt%d}<< (%s)", sourceName, icon, destName, icon,  targetOftargetName)
+	      warning = format("%s %s → >>{rt%d}%s{rt%d}<< (%s)", sourceName, spellName, icon, destName, icon,  targetOftargetName)
 	    end
 	  end
 	end
@@ -89,6 +90,7 @@ function TauntWarning_OnEvent(self, events, ...)
 	spellId == 49560 or -- death knight
 	spellId == 355 or   -- war
 	spellId == 1161 or  -- war
+	spellId == 694 or   -- war
 	spellId == 62124 or -- pal
 	spellId == 31789 or -- pal
 	spellId == 6795  or -- druid
@@ -98,7 +100,7 @@ function TauntWarning_OnEvent(self, events, ...)
 	local start, duration, enabled = GetSpellCooldown(spellName)
 	local channel = GetChannel()
 
-	warning = format("%s施法失敗，還在冷卻中，剩餘%d秒", spellName, start + duration - GetTime())
+	warning = format("%s %s → >>%s<< 施法失敗，還在冷卻中，剩餘%d秒", playerName, spellName, targetName, start + duration - GetTime())
 
 	SendChatMessage(warning, channel)
        end
@@ -112,6 +114,7 @@ function TauntWarning_OnEvent(self, events, ...)
 	  spellId == 49560 or -- death knight
 	  spellId == 355 or   -- war
 	  spellId == 1161 or  -- war
+	  spellId == 694 or   -- war
 	  spellId == 62124 or -- pal
 	  spellId == 31789 or -- pal
 	  spellId == 6795  or -- druid
