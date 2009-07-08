@@ -102,7 +102,7 @@ function TauntWarning_OnEvent(self, events, ...)
 	  return
 	else
 	  SendChatMessage(warning, channel)
-	  if (targetOfTarget ~= nil) then
+	  if (targetOfTarget ~= nil and targetOfTarget ~= playerName) then
 	    warning2 = format("請補好原目標%s", targetOfTargetName)
 	    SendChatMessage(warning2, channel)
 	  end
