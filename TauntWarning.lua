@@ -20,7 +20,7 @@ end
 
 function TauntWarning_OnLoad()
   this:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
-  DEFAULT_CHAT_FRAME:AddMessage ("TauntWarning is loaded")
+  DEFAULT_CHAT_FRAME:AddMessage ("TauntWarning has been loaded")
 end
 
 function TauntWarning_OnEvent(self, events, ...)
