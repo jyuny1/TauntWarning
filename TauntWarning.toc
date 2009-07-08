@@ -1,0 +1,5 @@
+## Interface: 30100
+## Title : TauntWarning
+## Notes: Warning when taunt is casted
+## Author: jyuny1
+TauntWarning.xml
