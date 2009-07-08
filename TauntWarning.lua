@@ -27,7 +27,7 @@ function TauntWarning_OnEvent(self, events, ...)
   local timestamp, type, sourceGUID, sourceName, sourceFlags, destGUID, destName, destFlags = select(1, ...)
   local playerName = UnitName("player")
   local icon = GetRaidTargetIndex("target")
-  local warning, warning2
+  local warning, warning2, channel
 
   if (event == "COMBAT_LOG_EVENT_UNFILTERED") then
     local targetName = UnitName("target")
@@ -69,7 +69,7 @@ function TauntWarning_OnEvent(self, events, ...)
 
 	warning2 = "請補職注意我"
 
-	local channel = GetChannel()
+	channel = GetChannel()
 
 	if (not channel) then
 	  return
@@ -77,7 +77,6 @@ function TauntWarning_OnEvent(self, events, ...)
 	  SendChatMessage(warning, channel)
 	  SendChatMessage(warning2, channel)
 	end
-
       end
     elseif(type == "SPELL_MISSED" and sourceName == playerName) then
       local spellId, spellName, spellSchool = select(9, ...)
