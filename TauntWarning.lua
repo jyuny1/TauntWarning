@@ -97,6 +97,10 @@ function TauntWarning_OnEvent(self, events, ...)
 	spellId == 5209     -- druid
 	) then
 
+	if (not GetChannel()) then
+	  return
+	end
+
 	local start, duration, enabled = GetSpellCooldown(spellName)
 
 	if ((start + duration)>0) then
