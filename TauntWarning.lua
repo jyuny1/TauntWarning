@@ -25,17 +25,17 @@ end
 
 function TauntWarning_OnEvent(self, events, ...)
   local timestamp, type, sourceGUID, sourceName, sourceFlags, destGUID, destName, destFlags = select(1, ...)
-  local playerName = UnitName("player")
-  local icon = GetRaidTargetIndex("target")
-  local warning, warning2, channel
 
   if (event == "COMBAT_LOG_EVENT_UNFILTERED") then
+    local playerName = UnitName("player")
+    local icon = GetRaidTargetIndex("target")
+    local warning, warning2, channel
     local targetName = UnitName("target")
-    local threatSituation=UnitThreatSituation("target")
     local targetOfTargetName=UnitName("targettarget")
 
     if (type == "SPELL_AURA_APPLIED" and sourceName == playerName) then
       local spellId, spellName, spellSchool = select(9, ...)
+      local threatSituation=UnitThreatSituation("player", "target")
 
       -- debug
       -- DEFAULT_CHAT_FRAME:AddMessage (format ("%s,%s", spellId, spellName))
@@ -50,6 +50,13 @@ function TauntWarning_OnEvent(self, events, ...)
 	spellId == 6795  or -- druid
 	spellId == 5209     -- druid
 	) then
+
+	if (threatSituation == nil) then
+	  DEFAULT_CHAT_FRAME:AddMessage ("nil")
+	else
+	  DEFAULT_CHAT_FRAME:AddMessage (format ("%d", threatSituation))
+	end
+
 	if (not threatSituation) then
 	  if (not icon) then
 	    warning = format("開怪摟 >>%s<<", destName)
@@ -60,14 +67,14 @@ function TauntWarning_OnEvent(self, events, ...)
 	  if (not icon) then
 	    warning = format("%s %s → >>%s<<", sourceName, spellName, destName)
 	  else
-	    warning = format("%s %s → >>{rt%d}%s{rt%d}<<", sourceName, spellNameon, icon, destName, icon)
+	    warning = format("%s %s → >>{rt%d}%s{rt%d}<<", sourceName, spellName, icon, destName, icon)
 	  end
 	else
 	  if (targetOfTargetName ~= playerName) then
 	    if (not icon) then
-	      warning = format("%s %s → >>%s<< (%s)", sourceName, spellName, destName, targetOftargetName)
+	      warning = format("%s %s → >>%s<< (%s)", sourceName, spellName, destName, targetOfTargetName)
 	    else
-	      warning = format("%s %s → >>{rt%d}%s{rt%d}<< (%s)", sourceName, spellName, icon, destName, icon,  targetOftargetName)
+	      warning = format("%s %s → >>{rt%d}%s{rt%d}<< (%s)", sourceName, spellName, icon, destName, icon, targetOfTargetName)
 	    end
 	  end
 	end
@@ -108,41 +115,47 @@ function TauntWarning_OnEvent(self, events, ...)
 	  warning = format("%s %s → >>%s<< 施法失敗，還在冷卻中，剩餘%d秒", playerName, spellName, targetName, start + duration - GetTime())
 	  SendChatMessage(warning, "say")
 	end
-       end
-      elseif(type == "SPELL_MISSED" and sourceName == playerName) then
-	local spellId, spellName, spellSchool = select(9, ...)
+      end
+    elseif(type == "SPELL_MISSED" and sourceName == playerName) then
+      local spellId, spellName, spellSchool = select(9, ...)
 
-	--debug
-	-- DEFAULT_CHAT_FRAME:AddMessage (format ("miss: %s,%s,%s", spellId, spellName, spellSchool))
+      --debug
+      -- DEFAULT_CHAT_FRAME:AddMessage (format ("miss: %s,%s,%s", spellId, spellName, spellSchool))
 
-	if (spellId == 56222 or -- death knight
-	  spellId == 49560 or -- death knight
-	  spellId == 355 or   -- war
-	  spellId == 1161 or  -- war
-	  spellId == 694 or   -- war
-	  spellId == 62124 or -- pal
-	  spellId == 31789 or -- pal
-	  spellId == 6795  or -- druid
-	  spellId == 5209     -- druid
-	  ) then
-	  if (not icon) then
-	    warning = format(">>%s<< 嘲諷失敗", destName)
-	  else
-	    warning = format("對標記為{rt%d}的 >>%s<< 嘲諷失敗", icon, destName)
-	  end
+      if (spellId == 56222 or -- death knight
+	spellId == 49560 or -- death knight
+	spellId == 355 or   -- war
+	spellId == 1161 or  -- war
+	spellId == 694 or   -- war
+	spellId == 62124 or -- pal
+	spellId == 31789 or -- pal
+	spellId == 6795  or -- druid
+	spellId == 5209     -- druid
+	) then
+	if (not icon) then
+	  warning = format(">>%s<< 嘲諷失敗", destName)
+	else
+	  warning = format("對標記為{rt%d}的 >>%s<< 嘲諷失敗", icon, destName)
+	end
 
-	  channel = GetChannel()
+	channel = GetChannel()
 
-	  if (not channel) then
-	    return
-	  else
-	    SendChatMessage(warning, channel)
-	    if (targetOfTarget ~= nil and targetOfTarget ~= playerName) then
-	      warning2 = format("請補好原目標%s", targetOfTargetName)
-	      SendChatMessage(warning2, channel)
-	    end
+	if (not channel) then
+	  return
+	else
+	  SendChatMessage(warning, channel)
+	  if (targetOfTarget ~= nil and targetOfTarget ~= playerName and
+	    (spellId == 49560 or
+	    spellId == 56222 or
+	    spellId == 355 or
+	    spellId == 694 or
+	    spellId == 6795)
+	    ) then
+	    warning2 = format("請補好原目標%s", targetOfTargetName)
+	    SendChatMessage(warning2, channel)
 	  end
 	end
       end
     end
   end
+end
