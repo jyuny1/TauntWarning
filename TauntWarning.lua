@@ -51,11 +51,13 @@ function TauntWarning_OnEvent(self, events, ...)
 	spellId == 5209     -- druid
 	) then
 
+	--[[ debug
 	if (threatSituation == nil) then
 	  DEFAULT_CHAT_FRAME:AddMessage ("nil")
 	else
 	  DEFAULT_CHAT_FRAME:AddMessage (format ("%d", threatSituation))
 	end
+	--]]
 
 	if (not threatSituation) then
 	  if (not icon) then
