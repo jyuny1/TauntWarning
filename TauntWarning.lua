@@ -92,16 +92,16 @@ function TauntWarning_OnEvent(self, events, ...)
 	  end
 	elseif (threatSituation==0 or threatSituation==1) then
 	  if (not icon) then
-	    warning = format("%s %s → >>%s<<", sourceName, spellName, destName)
+	    warning = format("%s %s -> >>%s<<", sourceName, spellName, destName)
 	  else
-	    warning = format("%s %s → >>{rt%d}%s{rt%d}<<", sourceName, spellName, icon, destName, icon)
+	    warning = format("%s %s -> >>{rt%d}%s{rt%d}<<", sourceName, spellName, icon, destName, icon)
 	  end
 	else
 	  if (targetOfTargetName ~= playerName) then
 	    if (not icon) then
-	      warning = format("%s %s → >>%s<< (%s)", sourceName, spellName, destName, targetOfTargetName)
+	      warning = format("%s %s -> >>%s<< (%s)", sourceName, spellName, destName, targetOfTargetName)
 	    else
-	      warning = format("%s %s → >>{rt%d}%s{rt%d}<< (%s)", sourceName, spellName, icon, destName, icon, targetOfTargetName)
+	      warning = format("%s %s -> >>{rt%d}%s{rt%d}<< (%s)", sourceName, spellName, icon, destName, icon, targetOfTargetName)
 	    end
 	  end
 	end
