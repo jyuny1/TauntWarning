@@ -1,13 +1,21 @@
 SLASH_TAUNTWARNING1 = "/tauntwarning"
+local TauntWarningEnabler
 
 local function argHandler(msg, _)
   if (msg == "disable") then
     TauntWarning_Main:UnregisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
     print("TauntWarning has been disabled")
+    TauntWarningEnabler=false
   elseif (msg == "enable") then
     TauntWarning_Main:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
     print("TauntWarning has been enabled")
+    TauntWarningEnabler=true
   else
+    if (TauntWarningEnabler) then
+      print("TauntWarning enabled")
+    else
+      print("TauntWarning disabled")
+    end
     print("Syntax: /tauntwarning (enable|disable)")
   end
 end
@@ -37,6 +45,7 @@ end
 function TauntWarning_OnLoad()
   this:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
   DEFAULT_CHAT_FRAME:AddMessage ("TauntWarning has been loaded")
+  TauntWarningEnabler=true
 end
 
 function TauntWarning_OnEvent(self, events, ...)
