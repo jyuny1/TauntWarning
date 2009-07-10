@@ -1,5 +1,5 @@
 ## Interface: 30100
 ## Title : TauntWarning
 ## Notes: Warning when taunt has been casted
-## Author: jyuny1
+## Author: Auomc <麒麟之眼>@凜風峽灣
 TauntWarning.xml

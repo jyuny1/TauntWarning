@@ -78,9 +78,9 @@ function TauntWarning_OnEvent(self, events, ...)
 
 	--[[ debug
 	if (threatSituation == nil) then
-	  DEFAULT_CHAT_FRAME:AddMessage ("nil")
+	DEFAULT_CHAT_FRAME:AddMessage ("nil")
 	else
-	  DEFAULT_CHAT_FRAME:AddMessage (format ("%d", threatSituation))
+	DEFAULT_CHAT_FRAME:AddMessage (format ("%d", threatSituation))
 	end
 	--]]
 
