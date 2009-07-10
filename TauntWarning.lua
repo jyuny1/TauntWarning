@@ -1,3 +1,19 @@
+SLASH_TAUNTWARNING1 = "/tauntwarning"
+
+local function argHandler(msg, _)
+  if (msg == "disable") then
+    TauntWarning_Main:UnregisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
+    print("TauntWarning has been disabled")
+  elseif (msg == "enable") then
+    TauntWarning_Main:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
+    print("TauntWarning has been enabled")
+  else
+    print("Syntax: /tauntwarning (enable|disable)")
+  end
+end
+
+SlashCmdList["TAUNTWARNING"] = argHandler
+
 function GetChannel()
   local channel
   if (UnitInRaid("player")) then
