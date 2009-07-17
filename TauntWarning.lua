@@ -54,13 +54,12 @@ function TauntWarning_OnEvent(self, events, ...)
   if (event == "COMBAT_LOG_EVENT_UNFILTERED") then
     local playerName = UnitName("player")
     local icon = GetRaidTargetIndex("target")
-    local warning, warning2, channel
     local targetName = UnitName("target")
     local targetOfTargetName=UnitName("targettarget")
+    local threatSituation = UnitThreatSituation("player", "target")
 
     if (type == "SPELL_AURA_APPLIED" and sourceName == playerName) then
       local spellId, spellName, spellSchool = select(9, ...)
-      local threatSituation=UnitThreatSituation("player", "target")
 
       -- debug
       -- DEFAULT_CHAT_FRAME:AddMessage (format ("%s,%s", spellId, spellName))
@@ -86,9 +85,9 @@ function TauntWarning_OnEvent(self, events, ...)
 
 	if (not threatSituation) then
 	  if (not icon) then
-	    warning = format("開怪摟 >>%s<<", destName)
+	    warning = format("開怪摟開怪摟 >>%s<<", targetName)
 	  else
-	    warning = format("開怪摟 >>{rt%d}%s{rt%d}<<", icon, destName, icon)
+	    warning = format("開怪摟開怪摟 >>{rt%d}%s{rt%d}<<", icon, targetName, icon)
 	  end
 	elseif (threatSituation==0 or threatSituation==1) then
 	  if (not icon) then
@@ -108,11 +107,12 @@ function TauntWarning_OnEvent(self, events, ...)
 
 	warning2 = "請補職注意我"
 
-	channel = GetChannel()
+	local channel = GetChannel()
 
 	if (not channel) then
 	  return
 	else
+	  --DEFAULT_CHAT_FRAME:AddMessage(warning)
 	  SendChatMessage(warning, channel)
 	  SendChatMessage(warning2, channel)
 	end
@@ -139,8 +139,9 @@ function TauntWarning_OnEvent(self, events, ...)
 
 	if ((start + duration)>0) then
 	  -- if not out of range
-	  warning = format("%s %s → >>%s<< 施法失敗，還在冷卻中，剩餘%d秒", playerName, spellName, targetName, start + duration - GetTime())
-	  SendChatMessage(warning, "say")
+	  local secondRemind = SecondsToTime(start + duration - GetTime())
+	  warning = format("%s >>%s<< 施法失敗，冷卻中，剩餘%s", spellName, targetName, secondRemind)
+	  DEFAULT_CHAT_FRAME:AddMessage(warning)
 	end
       end
     elseif(type == "SPELL_MISSED" and sourceName == playerName) then
@@ -165,13 +166,13 @@ function TauntWarning_OnEvent(self, events, ...)
 	  warning = format("對標記為{rt%d}的 >>%s<< 嘲諷失敗", icon, destName)
 	end
 
-	channel = GetChannel()
+	local channel = GetChannel()
 
 	if (not channel) then
 	  return
 	else
 	  SendChatMessage(warning, channel)
-	  if (targetOfTarget ~= nil and targetOfTarget ~= playerName and
+	  if (targetOfTarget ~= playerName and
 	    (spellId == 49560 or
 	    spellId == 56222 or
 	    spellId == 355 or
