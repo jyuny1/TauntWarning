@@ -1,4 +1,4 @@
-## Interface: 30100
+## Interface: 30200
 ## Title : TauntWarning
 ## Notes: Warning when taunt has been casted
 ## Author: Auomc <麒麟之眼>@凜風峽灣

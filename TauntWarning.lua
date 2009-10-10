@@ -83,7 +83,7 @@ function TauntWarning_OnEvent(self, events, ...)
 	end
 	--]]
 
-	if (not threatSituation) then
+	if (threatSituation == nil) then
 	  if (not icon) then
 	    warning = format("開怪摟開怪摟 >>%s<<", targetName)
 	  else
@@ -91,10 +91,15 @@ function TauntWarning_OnEvent(self, events, ...)
 	  end
 	elseif (threatSituation==0 or threatSituation==1) then
 	  if (not icon) then
-	    warning = format("%s %s -> >>%s<<", sourceName, spellName, destName)
+	    warning = format("%s %s -> >>%s<< 建立仇恨中，請打小力點", sourceName, spellName, destName)
 	  else
-	    warning = format("%s %s -> >>{rt%d}%s{rt%d}<<", sourceName, spellName, icon, destName, icon)
+	    warning = format("%s %s -> >>{rt%d}%s{rt%d}<< 建立仇恨中，請打小力點", sourceName, spellName, icon, destName, icon)
 	  end
+	elseif(threatSituation==2) then
+	    if (not icon) then
+	      warning = format("%s %s -> >>%s<< 仇恨穩定，請用力打", sourceName, spellName, destName)
+	     else
+	      warning = format("%s %s -> >>{rt%d}%s{rt%d}<< 仇恨穩定，請用力打", sourceName, spellName, icon, destName, icon)
 	else
 	  if (targetOfTargetName ~= playerName) then
 	    if (not icon) then
@@ -105,7 +110,7 @@ function TauntWarning_OnEvent(self, events, ...)
 	  end
 	end
 
-	warning2 = "請補職注意我"
+	--warning2 = "請補職注意我"
 
 	local channel = GetChannel()
 
@@ -114,7 +119,7 @@ function TauntWarning_OnEvent(self, events, ...)
 	else
 	  --DEFAULT_CHAT_FRAME:AddMessage(warning)
 	  SendChatMessage(warning, channel)
-	  SendChatMessage(warning2, channel)
+	  --SendChatMessage(warning2, channel)
 	end
       end
     elseif(type == "SPELL_CAST_FAILED" and sourceName == playerName) then
